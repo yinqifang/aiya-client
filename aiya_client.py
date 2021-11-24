@@ -23,7 +23,7 @@ def get_latest_version(host):
     获取最新版本号
     :return:
     """
-    url_latest_version = '/mushroom/version/latest'
+    url_latest_version = '/aiya/version/latest'
     full_url = "http://" + host + url_latest_version
     resp = requests.get(full_url)
     return resp.text
