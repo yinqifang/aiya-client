@@ -3,29 +3,43 @@
 
 import pika
 import yaml
-
+from multiprocessing import Process
 
 # 获取连接
-def get_connection():
+from src.mq.asynchronous_consumer import ReconnectingConsumer
+
+
+# 获取配置信息
+def get_config():
     yaml_path = "rabbitmq.yml"
 
+    rst = {}
+
     # 获取mq连接信息
-    host = ""
-    port = 5672
-    username = ""
-    password = ""
+
     with open(yaml_path, 'r', encoding="utf-8") as f:
         config = yaml.safe_load(f)
         mq_config = config["rabbitmq"]
         # print(data)
-        host = mq_config["host"]
-        port = mq_config["port"]
-        username = mq_config["username"]
-        password = mq_config["password"]
+        rst["host"] = mq_config["host"]
+        rst["port"] = mq_config["port"]
+        rst["virtual_host"] = mq_config["virtual_host"]
+        rst["username"] = mq_config["username"]
+        rst["password"] = mq_config["password"]
+    # print(rst)
+    return rst
+
+
+def get_connection():
+    yaml_path = "rabbitmq.yml"
+
+    # 获取mq连接信息
+    config = get_config()
     # 创建连接
-    credentials = pika.PlainCredentials(username=username, password=password)
-    connection = pika.BlockingConnection(pika.ConnectionParameters(host=host, port=port, virtual_host="/",
-                                                                   credentials=credentials))
+    credentials = pika.PlainCredentials(username=config["username"], password=config["password"])
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host=config["host"], port=config["port"], virtual_host=config["virtual_host"],
+                                  credentials=credentials))
     return connection
 
 
@@ -58,12 +72,31 @@ def receive():
     print("End receiving")
     pass
 
+
+def async_receive():
+    config = get_config()
+    host = config["host"]
+    port = config["port"]
+    virtual_host = config["virtual_host"]
+    username = config["username"]
+    password = config["password"]
+    queue_name = "queue.aiya"
+
+    consumer = ReconnectingConsumer(host=host, port=port, virtual_host=virtual_host, username=username,
+                                    password=password, queue_name=queue_name, on_message=on_message)
+    # consumer.run()
+    p = Process(target=consumer.run)
+    p.start()
+
+
 def other():
     print("Other staff....")
 
+
 if __name__ == '__main__':
     # send()
-    receive()
+    # receive()
+    async_receive()
     other()
 
     # get_connection()

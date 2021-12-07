@@ -1,5 +1,6 @@
 rabbitmq:
     host: chrisyin.cn
     port: 5672
+    virtual_host: /
     username: admin
     password: mushroom
