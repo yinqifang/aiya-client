@@ -4,3 +4,5 @@
 ## 客户端开发语言
 Python
 ## 参考文档
+* [Python连接RabbitMQ](https://www.rabbitmq.com/tutorials/tutorial-one-python.html)
+* [Asynchronous consumer example](https://github.com/pika/pika/blob/master/examples/asynchronous_consumer_example.py)
