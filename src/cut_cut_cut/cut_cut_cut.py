@@ -10,15 +10,13 @@ from tkinter import messagebox
 import colorama
 
 # 添加当前目录到系统路径
-cur_file = os.path.abspath(__file__)
-cur_path = os.path.sep.join(cur_file.split(os.path.sep)[:-1])
-sys.path.append(cur_path)
+# sys.path.append(os.path.dirname(__file__))
 
-from config import SplitConfig
-from config import MailConfig
-from mail import Mail
-from split_and_merge import SplitAndMerge
-from zip import Zip
+from cut_cut_cut.config import SplitConfig
+from cut_cut_cut.config import MailConfig
+from cut_cut_cut.mail import Mail
+from cut_cut_cut.split_and_merge import SplitAndMerge
+from cut_cut_cut.zip import Zip
 from common.color_print import ColorPrint
 
 
@@ -151,17 +149,13 @@ class CutCutCut:
             # PyInstaller creates a temp folder and stores path in _MEIPASS
             base_path = sys._MEIPASS
         except Exception:
-            base_path = os.environ.get("_MEIPASS2", os.path.abspath(".."))
+            base_path = os.environ.get("_MEIPASS2", os.path.dirname(__file__))
 
         return os.path.join(base_path, relative_path)
 
     def print_release_notes(self):
         # 获取当前目录
-        cur_file = os.path.abspath(__file__)
-        cur_path = os.path.sep.join(cur_file.split(os.path.sep)[:-1])
-        sys.path.append(cur_path)
-        release_file_path = os.path.join(cur_path, "release_notes.txt")
-        f = open(release_file_path, "r", encoding='utf-8')
+        f = open(self.resource_path("release_notes.txt"), "r", encoding='utf-8')
         print(f.read())
 
     # 显示菜单
