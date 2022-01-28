@@ -4,22 +4,21 @@ import shutil
 import sys
 import tkinter
 import traceback
-from tkinter import messagebox
 from tkinter import filedialog
+from tkinter import messagebox
+
 import colorama
-from termcolor import colored
-# sys.path.append(os.path.split(os.path.abspath(os.path.dirname(__file__)))[0])
 
-root_path = os.path.abspath(__file__)
-root_path = '/'.join(root_path.split('/')[:-2])
-sys.path.append(root_path)
-
+# 添加当前目录到系统路径
+cur_file = os.path.abspath(__file__)
+cur_path = os.path.sep.join(cur_file.split(os.path.sep)[:-1])
+sys.path.append(cur_path)
 
 from config import SplitConfig
 from config import MailConfig
 from mail import Mail
 from split_and_merge import SplitAndMerge
-import zip
+from common.color_print import ColorPrint
 
 
 class CutCutCut:
@@ -36,7 +35,7 @@ class CutCutCut:
     # 主流程
     def main(self):
         print("欢迎使用切切切(V" + self._version_ + ")")
-        self.print_red("本工具仅供内部研究使用，请注意信息安全，由此带来的一切后果与作者无关（手动狗头）")
+        ColorPrint.print_red("本工具仅供内部研究使用，请注意信息安全，由此带来的一切后果与作者无关（手动狗头）")
         # 初始化参数
         self.init_variables()
         # 菜单选择
@@ -128,11 +127,11 @@ class CutCutCut:
 
     def print_help(self):
         print()
-        self.print_green("     **********  切切切  **********")
+        ColorPrint.print_green("     **********  切切切  **********")
         print()
-        self.print_red("     **郑重声明：本工具仅供内部交流使用，请注意信息安全，由此带来的一切后果与作者无关（手动狗头）**")
+        ColorPrint.print_red("     **郑重声明：本工具仅供内部交流使用，请注意信息安全，由此带来的一切后果与作者无关（手动狗头）**")
         print()
-        self.print_blue("     V" + self._version_)
+        ColorPrint.print_blue("     V" + self._version_)
         print("     功能概述：")
         print("         * 发送文件：将文件切分后通过邮件发送给指定收件人")
         print("         * 接收文件：通过取件码自动扫描对应邮件，并将附件合并成原始文件")
@@ -144,7 +143,7 @@ class CutCutCut:
         print("     * 内网使用时需要以管理员身份运行，否则不能持久化选择的参数")
         print("     * 发送的文件需要再次使用本工具接收，否则无法合并成源文件")
         print()
-        self.print_green("     **********  切切切  **********")
+        ColorPrint.print_green("     **********  切切切  **********")
         print()
 
     def resource_path(self, relative_path):
@@ -166,18 +165,18 @@ class CutCutCut:
     # 显示菜单
     def print_menu(self):
         print("========== 菜单 ==============")
-        self.print_blue("1 . 发送文件")
-        self.print_blue("11. 快捷发送文件（输入文件路径，支持拖入）")
-        self.print_blue("12. 快捷发送文件（资源管理器中选择文件）")
-        self.print_green("2 . 接收文件")
-        self.print_green("22. 快捷接收文件")
+        ColorPrint.print_blue("1 . 发送文件")
+        ColorPrint.print_blue("11. 快捷发送文件（输入文件路径，支持拖入）")
+        ColorPrint.print_blue("12. 快捷发送文件（资源管理器中选择文件）")
+        ColorPrint.print_green("2 . 接收文件")
+        ColorPrint.print_green("22. 快捷接收文件")
         print("3 . 清理邮件")
         print("33. 快捷清理邮件")
         print("7 . 查看默认参数")
         print("8 . 帮助")
         print("81. 更新日志")
         print("9 . 查看菜单")
-        self.print_magenta("0. 退出")
+        ColorPrint.print_magenta("0. 退出")
 
     # 菜单选择
     def select_menu(self):
@@ -224,7 +223,7 @@ class CutCutCut:
 
             # 文本提醒
             print()
-            print("****** 文件发送完成，提取码：[", colored(code, 'blue'), "]，请至接收端接收文件！！！")
+            print("****** 文件发送完成，提取码：[", ColorPrint.blue(code), "]，请至接收端接收文件！！！")
             # 弹窗提醒
             self.show_msg_box("CutCutCut", "文件发送完成，提取码：[" + code + "]，请至接收端接收文件。")
             pass
@@ -392,7 +391,7 @@ class CutCutCut:
             # 清理临时文件
             self.clean_receive_temp_file(split_files)
 
-            print("****** 文件合并成功！！！目标文件夹：", colored(tar_path, 'blue'))
+            print("****** 文件合并成功！！！目标文件夹：", ColorPrint.blue(tar_path))
 
             # 打开目标文件夹
             os.startfile(tar_path)
@@ -421,7 +420,7 @@ class CutCutCut:
             # 清理临时文件
             self.clean_receive_temp_file(split_files)
 
-            print("****** 文件合并成功！！！目标文件夹：", colored(tar_path, 'blue'))
+            print("****** 文件合并成功！！！目标文件夹：", ColorPrint.blue(tar_path))
 
             # 打开目标文件夹
             os.startfile(tar_path)
@@ -461,7 +460,8 @@ class CutCutCut:
         # # 手动输入下载路径
         # new_mail_attachment_download_path = input("请输入附件下载路径[" + self._mail_attachment_download_path + "]: ")
         # 使用文件夹选择器
-        new_mail_attachment_download_path = filedialog.askdirectory(initialdir=self._mail_attachment_download_path, title="请选择附件下载路径")
+        new_mail_attachment_download_path = filedialog.askdirectory(initialdir=self._mail_attachment_download_path,
+                                                                    title="请选择附件下载路径")
         if new_mail_attachment_download_path and new_mail_attachment_download_path.strip():
             self._mail_attachment_download_path = new_mail_attachment_download_path
             # 更新配置文件
@@ -617,19 +617,19 @@ class CutCutCut:
             mail_folder_name_vs_mails[name] = mails
         # 展示扫描结果
         if len(mail_folder_name_vs_mails) <= 0:
-            self.print_green("没有找到待清理的邮件！")
+            ColorPrint.print_green("没有找到待清理的邮件！")
             return
         else:
-            self.print_green("扫描到如下邮件：")
+            ColorPrint.print_green("扫描到如下邮件：")
             for folder_name, mails in mail_folder_name_vs_mails.items():
-                self.print_cyan("++" + folder_name + "(" + str(len(mails)) + ")")
+                ColorPrint.print_cyan("++" + folder_name + "(" + str(len(mails)) + ")")
                 for mail in mails:
-                    self.print_magenta("  --" + mail.Subject)
+                    ColorPrint.print_magenta("  --" + mail.Subject)
         # 确认是否删除
         if confirm_before_delete:
             confirm_delete = input("是否删除所有扫描到的邮件，已删除中邮件会被彻底删除且无法恢复！！[y/n]：")
             if confirm_delete != "y":
-                print(colored("放弃清理", 'yellow'))
+                print(ColorPrint.yellow("放弃清理"))
                 return
         # 删除
         prompt = "清理邮件..."
@@ -657,18 +657,18 @@ class CutCutCut:
 
     def progress_ing(self, prompt, current, total):
         # red, green, yellow, blue, magenta, cyan, white.
-        print("\r", prompt, colored(str(current), 'magenta'), "/", colored(str(total), 'cyan'), end="")
+        print("\r", prompt, ColorPrint.megenta(str(current)), "/", ColorPrint.cyan(str(total)), end="")
 
     def progress_error(self, prompt, err_msg="失败!!!"):
-        print("\r", prompt, colored(err_msg, "red"), end="")
+        print("\r", prompt, ColorPrint.red(err_msg), end="")
         print()
 
     def progress_succeed(self, prompt, current=None, total=None):
         if current == None:
-            print("\r", prompt, colored("Done！", "green"), end="")
+            print("\r", prompt, ColorPrint.green("Done！"), end="")
         else:
-            print("\r", prompt, colored(str(current), 'magenta'), "/", colored(str(total), 'cyan'),
-                  colored("Done！", "green"), end="")
+            print("\r", prompt, ColorPrint.megenta(str(current)), "/", ColorPrint.cyan(str(total)),
+                  ColorPrint.green("Done！"), end="")
         print()
 
     def progress_custom(self, *args):
@@ -676,39 +676,6 @@ class CutCutCut:
         for arg in args:
             prompt += arg
         print("\r", prompt, end="")
-
-    def print_cyan(self, prompt):
-        self.print_color(prompt, 'cyan')
-
-    def print_magenta(self, prompt):
-        self.print_color(prompt, 'magenta')
-
-    def print_green(self, prompt):
-        self.print_color(prompt, 'green')
-
-    def print_blue(self, prompt):
-        self.print_color(prompt, 'blue')
-
-    def print_red(self, prompt):
-        self.print_color(prompt, 'red')
-
-    def print_color(self, prompt, color):
-        print(colored(prompt, color))
-
-    def magenta(self, prompt):
-        return colored(prompt, "magenta")
-
-    def cyan(self, prompt):
-        return colored(prompt, "cyan")
-
-    def green(self, prompt):
-        return colored(prompt, "green")
-
-    def blue(self, prompt):
-        return colored(prompt, "blue")
-
-    def red(self, prompt):
-        return colored(prompt, "red")
 
     def show_msg_box(self, title, msg, top=True):
         # 设置是否置顶
@@ -721,6 +688,7 @@ class CutCutCut:
     def get_path_of_file(self, full_file_name):
         (file_path, file_name) = os.path.split(full_file_name)
         return file_path
+
 
 if __name__ == '__main__':
     colorama.init()
