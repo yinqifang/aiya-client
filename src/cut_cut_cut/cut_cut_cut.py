@@ -18,6 +18,7 @@ from config import SplitConfig
 from config import MailConfig
 from mail import Mail
 from split_and_merge import SplitAndMerge
+from zip import Zip
 from common.color_print import ColorPrint
 
 
@@ -34,8 +35,6 @@ class CutCutCut:
 
     # 主流程
     def main(self):
-        print("欢迎使用切切切(V" + self._version_ + ")")
-        ColorPrint.print_red("本工具仅供内部研究使用，请注意信息安全，由此带来的一切后果与作者无关（手动狗头）")
         # 初始化参数
         self.init_variables()
         # 菜单选择
@@ -157,14 +156,17 @@ class CutCutCut:
         return os.path.join(base_path, relative_path)
 
     def print_release_notes(self):
-        # full_file_path = os.path.join(self._root_path, "release-notes.txt")
-        # f = open(full_file_path, "r", encoding='utf-8')
-        f = open(self.resource_path("../release-notes.txt"), "r", encoding='utf-8')
+        # 获取当前目录
+        cur_file = os.path.abspath(__file__)
+        cur_path = os.path.sep.join(cur_file.split(os.path.sep)[:-1])
+        sys.path.append(cur_path)
+        release_file_path = os.path.join(cur_path, "release_notes.txt")
+        f = open(release_file_path, "r", encoding='utf-8')
         print(f.read())
 
     # 显示菜单
     def print_menu(self):
-        print("========== 菜单 ==============")
+        print("========== 切切切(V" + self._version_ + ") ==============")
         ColorPrint.print_blue("1 . 发送文件")
         ColorPrint.print_blue("11. 快捷发送文件（输入文件路径，支持拖入）")
         ColorPrint.print_blue("12. 快捷发送文件（资源管理器中选择文件）")
@@ -314,7 +316,7 @@ class CutCutCut:
         prompt = "加密文件..."
         self.progress_start(prompt)
         try:
-            zip = zip.Zip()
+            zip = Zip()
             for root, dirs, files in os.walk(target_file_path):
                 idx = 0
                 for filename in files:
@@ -488,13 +490,13 @@ class CutCutCut:
                 total_mail_count = int(split_subject[len(split_subject) - 2])
                 if len(qualified_mails) < total_mail_count:
                     # 邮件数量不够
-                    self.progress_custom(prompt, self.red("--邮件数量不正确，期望："), self.cyan(str(total_mail_count)),
-                                         self.red("， 实际："), self.magenta(str(len(qualified_mails))))
+                    self.progress_custom(prompt, ColorPrint.red("--邮件数量不正确，期望："), ColorPrint.cyan(str(total_mail_count)),
+                                         ColorPrint.red("， 实际："), ColorPrint.magenta(str(len(qualified_mails))))
                     print()
                     for mail in qualified_mails:
                         print("    --", mail.Subject)
                     raise Exception("邮件数量不正确")
-            self.progress_custom(prompt, "扫描到 ", self.cyan(str(len(qualified_mails))), " 封邮件，开始下载")
+            self.progress_custom(prompt, "扫描到 ", ColorPrint.cyan(str(len(qualified_mails))), " 封邮件，开始下载")
             print()
             tar_path = os.path.join(self._mail_attachment_download_path, magic_code)
             mail.fetch_attachment(qualified_mails, tar_path)
@@ -512,7 +514,7 @@ class CutCutCut:
         prompt = "解密文件..."
         self.progress_start(prompt)
         try:
-            zip = zip.Zip()
+            zip = Zip()
             for root, dirs, files in os.walk(tar_path):
                 idx = 0
                 for filename in files:
@@ -657,7 +659,7 @@ class CutCutCut:
 
     def progress_ing(self, prompt, current, total):
         # red, green, yellow, blue, magenta, cyan, white.
-        print("\r", prompt, ColorPrint.megenta(str(current)), "/", ColorPrint.cyan(str(total)), end="")
+        print("\r", prompt, ColorPrint.magenta(str(current)), "/", ColorPrint.cyan(str(total)), end="")
 
     def progress_error(self, prompt, err_msg="失败!!!"):
         print("\r", prompt, ColorPrint.red(err_msg), end="")
@@ -667,7 +669,7 @@ class CutCutCut:
         if current == None:
             print("\r", prompt, ColorPrint.green("Done！"), end="")
         else:
-            print("\r", prompt, ColorPrint.megenta(str(current)), "/", ColorPrint.cyan(str(total)),
+            print("\r", prompt, ColorPrint.magenta(str(current)), "/", ColorPrint.cyan(str(total)),
                   ColorPrint.green("Done！"), end="")
         print()
 
