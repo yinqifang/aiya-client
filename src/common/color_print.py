@@ -44,27 +44,27 @@ class ColorPrint:
         print(colored(prompt, color))
 
     @staticmethod
-    def blue(self, prompt):
+    def blue(prompt):
         return colored(prompt, "blue")
 
     @staticmethod
-    def cyan(self, prompt):
+    def cyan(prompt):
         return colored(prompt, "cyan")
 
     @staticmethod
-    def green(self, prompt):
+    def green(prompt):
         return colored(prompt, "green")
 
     @staticmethod
-    def magenta(self, prompt):
+    def magenta(prompt):
         return colored(prompt, "magenta")
 
     @staticmethod
-    def red(self, prompt):
+    def red(prompt):
         return colored(prompt, "red")
 
     @staticmethod
-    def yellow(self, prompt):
+    def yellow(prompt):
         return colored(prompt, "yellow")
 
     def __init__(self):

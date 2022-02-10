@@ -688,8 +688,8 @@ class CutCutCut:
 
 if __name__ == '__main__':
     colorama.init()
-    pass
     # print(os.path.dirname("d:\\cutcutcut\\9527.rar"))
     CutCutCut().main()
     # testSplit()
     # testMerge()
+    pass
