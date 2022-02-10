@@ -124,11 +124,11 @@ class CutCutCut:
 
     def print_help(self):
         print()
-        ColorPrint.print_green("     **********  切切切  **********")
+        ColorPrint.get_instance().print_green("     **********  切切切  **********")
         print()
-        ColorPrint.print_red("     **郑重声明：本工具仅供内部交流使用，请注意信息安全，由此带来的一切后果与作者无关（手动狗头）**")
+        ColorPrint.get_instance().print_red("     **郑重声明：本工具仅供内部交流使用，请注意信息安全，由此带来的一切后果与作者无关（手动狗头）**")
         print()
-        ColorPrint.print_blue("     V" + self._version_)
+        ColorPrint.get_instance().print_blue("     V" + self._version_)
         print("     功能概述：")
         print("         * 发送文件：将文件切分后通过邮件发送给指定收件人")
         print("         * 接收文件：通过取件码自动扫描对应邮件，并将附件合并成原始文件")
@@ -140,7 +140,7 @@ class CutCutCut:
         print("     * 内网使用时需要以管理员身份运行，否则不能持久化选择的参数")
         print("     * 发送的文件需要再次使用本工具接收，否则无法合并成源文件")
         print()
-        ColorPrint.print_green("     **********  切切切  **********")
+        ColorPrint.get_instance().print_green("     **********  切切切  **********")
         print()
 
     def resource_path(self, relative_path):
@@ -161,18 +161,18 @@ class CutCutCut:
     # 显示菜单
     def print_menu(self):
         print("========== 切切切(V" + self._version_ + ") ==============")
-        ColorPrint.print_blue("1 . 发送文件")
-        ColorPrint.print_blue("11. 快捷发送文件（输入文件路径，支持拖入）")
-        ColorPrint.print_blue("12. 快捷发送文件（资源管理器中选择文件）")
-        ColorPrint.print_green("2 . 接收文件")
-        ColorPrint.print_green("22. 快捷接收文件")
+        ColorPrint.get_instance().print_blue("1 . 发送文件")
+        ColorPrint.get_instance().print_blue("11. 快捷发送文件（输入文件路径，支持拖入）")
+        ColorPrint.get_instance().print_blue("12. 快捷发送文件（资源管理器中选择文件）")
+        ColorPrint.get_instance().print_green("2 . 接收文件")
+        ColorPrint.get_instance().print_green("22. 快捷接收文件")
         print("3 . 清理邮件")
         print("33. 快捷清理邮件")
         print("7 . 查看默认参数")
         print("8 . 帮助")
         print("81. 更新日志")
         print("9 . 查看菜单")
-        ColorPrint.print_magenta("0. 退出")
+        ColorPrint.get_instance().print_magenta("0. 退出")
 
     # 菜单选择
     def select_menu(self):
@@ -613,14 +613,14 @@ class CutCutCut:
             mail_folder_name_vs_mails[name] = mails
         # 展示扫描结果
         if len(mail_folder_name_vs_mails) <= 0:
-            ColorPrint.print_green("没有找到待清理的邮件！")
+            ColorPrint.get_instance().print_green("没有找到待清理的邮件！")
             return
         else:
-            ColorPrint.print_green("扫描到如下邮件：")
+            ColorPrint.get_instance().print_green("扫描到如下邮件：")
             for folder_name, mails in mail_folder_name_vs_mails.items():
-                ColorPrint.print_cyan("++" + folder_name + "(" + str(len(mails)) + ")")
+                ColorPrint.get_instance().print_cyan("++" + folder_name + "(" + str(len(mails)) + ")")
                 for mail in mails:
-                    ColorPrint.print_magenta("  --" + mail.Subject)
+                    ColorPrint.get_instance().print_magenta("  --" + mail.Subject)
         # 确认是否删除
         if confirm_before_delete:
             confirm_delete = input("是否删除所有扫描到的邮件，已删除中邮件会被彻底删除且无法恢复！！[y/n]：")

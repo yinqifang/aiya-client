@@ -1,6 +1,7 @@
 import os
 import sys
 
+import colorama
 from termcolor import colored
 
 # 添加当前目录到系统路径
@@ -10,54 +11,65 @@ sys.path.append(cur_path)
 
 
 class ColorPrint:
-    @staticmethod
-    def print_cyan(prompt):
-        ColorPrint.print_color(prompt, 'cyan')
+    _instance_ = None
 
-    @staticmethod
-    def print_magenta(prompt):
-        ColorPrint.print_color(prompt, 'magenta')
+    @classmethod
+    def get_instance(cls):
+        if ColorPrint._instance_ is None:
+            ColorPrint._instance_ = ColorPrint()
+        return ColorPrint._instance_
 
-    @staticmethod
-    def print_green(prompt):
-        ColorPrint.print_color(prompt, 'green')
+    # @staticmethod
+    def print_cyan(self, prompt):
+        self.print_color(prompt, 'cyan')
 
-    @staticmethod
-    def print_blue(prompt):
-        ColorPrint.print_color(prompt, 'blue')
+    # @staticmethod
+    def print_magenta(self, prompt):
+        self.print_color(prompt, 'magenta')
 
-    @staticmethod
-    def print_red(prompt):
-        ColorPrint.print_color(prompt, 'red')
+    # @staticmethod
+    def print_green(self, prompt):
+        self.print_color(prompt, 'green')
+
+    # @staticmethod
+    def print_blue(self, prompt):
+        self.print_color(prompt, 'blue')
+
+    # @staticmethod
+    def print_red(self, prompt):
+        self.print_color(prompt, 'red')
 
     @staticmethod
     def print_color(prompt, color):
         print(colored(prompt, color))
 
-
     @staticmethod
-    def blue(prompt):
+    def blue(self, prompt):
         return colored(prompt, "blue")
 
     @staticmethod
-    def cyan(prompt):
+    def cyan(self, prompt):
         return colored(prompt, "cyan")
 
     @staticmethod
-    def green(prompt):
+    def green(self, prompt):
         return colored(prompt, "green")
 
     @staticmethod
-    def magenta(prompt):
+    def magenta(self, prompt):
         return colored(prompt, "magenta")
 
     @staticmethod
-    def red(prompt):
+    def red(self, prompt):
         return colored(prompt, "red")
 
     @staticmethod
-    def yellow(prompt):
+    def yellow(self, prompt):
         return colored(prompt, "yellow")
+
+    def __init__(self):
+        # 初始化，否则打成exe包后会显示乱码
+        colorama.init()
 
 
 if __name__ == '__main__':
