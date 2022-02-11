@@ -15,3 +15,5 @@ python -m PyInstaller aiya_client.spec
 ## 参考文档
 * [Python连接RabbitMQ](https://www.rabbitmq.com/tutorials/tutorial-one-python.html)
 * [Asynchronous consumer example](https://github.com/pika/pika/blob/master/examples/asynchronous_consumer_example.py)
+* [python pika一次消费一条消息](https://blog.csdn.net/lly337/article/details/121925451)
+* [pika basic_get](https://pika.readthedocs.io/en/stable/examples/blocking_basic_get.html)

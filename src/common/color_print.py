@@ -11,13 +11,13 @@ sys.path.append(cur_path)
 
 
 class ColorPrint:
-    _instance_ = None
+    _instance = None
 
     @classmethod
     def get_instance(cls):
-        if ColorPrint._instance_ is None:
-            ColorPrint._instance_ = ColorPrint()
-        return ColorPrint._instance_
+        if ColorPrint._instance is None:
+            ColorPrint._instance = ColorPrint()
+        return ColorPrint._instance
 
     # @staticmethod
     def print_cyan(self, prompt):
