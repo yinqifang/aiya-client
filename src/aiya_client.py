@@ -1,13 +1,15 @@
 import time
+import os
 import traceback
 from common.color_print import ColorPrint
 from common.clipboard import Clipboard
 from cut_cut_cut.cut_cut_cut import CutCutCut
 from mq.mq import MQ
+from common.resource_path import Resource
 
 class AiyaClient:
     # 定义参数
-    _version_ = '1.0'
+    _version_ = '1.1'
 
     # 主流程
     def main(self):
@@ -38,6 +40,9 @@ class AiyaClient:
                         Clipboard.write_data_to_clipboard(data)
                         print("收到数据：" + data[0:20] + "...")
                         ColorPrint.get_instance().print_green("数据已成功复制到粘贴板！")
+                elif selected == "8":
+                    # 更新日志
+                    self.print_release_notes()
                 elif selected == "9":
                     # 查看菜单
                     self.print_menu()
@@ -55,12 +60,19 @@ class AiyaClient:
         ColorPrint.get_instance().print_green("cut： 切切切")
         ColorPrint.get_instance().print_green("cc： 发送粘贴板")
         ColorPrint.get_instance().print_green("cv： 接收到粘贴板")
+        ColorPrint.get_instance().print_green("8： 更新日志")
         ColorPrint.get_instance().print_magenta("quit： 退出")
 
     # 菜单选择
     def select_menu(self):
         return input("请输入要使用的功能（9菜单，quit退出）：")
 
+    # 显示更新日志
+    def print_release_notes(self):
+        # 获取当前目录
+        # f = open(self.resource_path("cut_cut_cut_release_notes.txt"), "r", encoding='utf-8')
+        f = open(Resource.resource_path("release_notes.txt", os.path.dirname(__file__)), "r", encoding='utf-8')
+        print(f.read())
 
 if __name__ == '__main__':
     AiyaClient().main()

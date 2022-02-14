@@ -7,6 +7,8 @@ Python
 ## 工具列表
 ### CutCutCut
 大文件通过邮件进行切分发送和收取合并
+### 云粘贴
+粘贴板数据传送（仅支持文本）
 ## python转exe
 ~~~
 pip install pyinstaller

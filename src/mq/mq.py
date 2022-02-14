@@ -6,7 +6,7 @@ import yaml
 from multiprocessing import Process
 # 获取连接
 from src.mq.asynchronous_consumer import ReconnectingConsumer
-
+from common.resource_path import Resource
 
 class MQ:
     # 实例
@@ -39,7 +39,8 @@ class MQ:
     # 获取配置信息
     def __get_config(self):
         # yaml_path = "rabbitmq.yml"
-        yaml_path = os.path.join(os.path.dirname(__file__), "rabbitmq.yml")
+        # yaml_path = os.path.join(os.path.dirname(__file__), "rabbitmq.yml")
+        yaml_path = Resource.resource_path("rabbitmq.yml", os.path.dirname(__file__))
         cfg = {}
         # 获取mq连接信息
         with open(yaml_path, 'r', encoding="utf-8") as f:

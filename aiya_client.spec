@@ -17,7 +17,9 @@ a = Analysis(['src\\aiya_client.py'],
              cipher=block_cipher,
              noarchive=False)
 a.datas += [
-    ("release_notes.txt","src\\cut_cut_cut\\release_notes.txt","DATA")
+    ("cut_cut_cut_release_notes.txt","src\\cut_cut_cut\\cut_cut_cut_release_notes.txt","DATA"),
+    ("release_notes.txt","src\\release_notes.txt","DATA"),
+    ("rabbitmq.yml","src\\mq\\rabbitmq.yml","DATA")
 ]
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)

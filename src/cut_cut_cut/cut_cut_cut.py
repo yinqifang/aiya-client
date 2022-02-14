@@ -18,6 +18,7 @@ from cut_cut_cut.mail import Mail
 from cut_cut_cut.split_and_merge import SplitAndMerge
 from cut_cut_cut.zip import Zip
 from common.color_print import ColorPrint
+from common.resource_path import Resource
 
 
 class CutCutCut:
@@ -155,7 +156,8 @@ class CutCutCut:
 
     def print_release_notes(self):
         # 获取当前目录
-        f = open(self.resource_path("release_notes.txt"), "r", encoding='utf-8')
+        # f = open(self.resource_path("cut_cut_cut_release_notes.txt"), "r", encoding='utf-8')
+        f = open(Resource.resource_path("cut_cut_cut_release_notes.txt", os.path.dirname(__file__)), "r", encoding='utf-8')
         print(f.read())
 
     # 显示菜单
