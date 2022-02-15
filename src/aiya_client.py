@@ -46,6 +46,9 @@ class AiyaClient:
                     # 更新日志
                     self.print_release_notes()
                 elif selected == "help" or selected == "h" or selected == "?":
+                    # 查看帮助
+                    self.print_help()
+                elif selected == "menu" or selected == "m" or selected == "9":
                     # 查看菜单
                     self.print_menu()
                 else:
@@ -67,7 +70,7 @@ class AiyaClient:
 
     # 菜单选择
     def select_menu(self):
-        return input("请输入要使用的功能（help/h/?菜单，quit退出）：")
+        return input("请输入要使用的功能（menu/m/9菜单，help/h/?帮助，quit退出）：")
 
     # 显示更新日志
     def print_release_notes(self):
@@ -75,6 +78,26 @@ class AiyaClient:
         # f = open(self.resource_path("cut_cut_cut_release_notes.txt"), "r", encoding='utf-8')
         f = open(Resource.resource_path("release_notes.txt", os.path.dirname(__file__)), "r", encoding='utf-8')
         print(f.read())
+
+    # 显示帮助
+    def print_help(self):
+        # print()
+        ColorPrint.get_instance().print_green("     **********  Aiya Client  **********")
+        # print()
+        ColorPrint.get_instance().print_red("     **郑重声明：本工具仅供内部交流使用，请注意信息安全，由此带来的一切后果与作者无关（正经脸）**")
+        # print()
+        ColorPrint.get_instance().print_blue("     V" + self._version_)
+        print("     功能概述：")
+        print("         * cut：文件切分和合并工具，原CutCutCut")
+        print("         * send：发送粘贴板数据；数据复制到粘贴板后输入send指令，仅支持文本")
+        print("         * get：接收数据到粘贴板；输入get指令后会将接收到的数据复制到粘贴板")
+        print("     请确保已经安装Outlook并正确配置了邮件服务器")
+        print()
+        print("     Tips：")
+        print("     * 粘贴板功能仅支持文本，注意内容不要过多，支持代理")
+        # print()
+        ColorPrint.get_instance().print_green("     **********  Aiya Client  **********")
+        print()
 
 if __name__ == '__main__':
     AiyaClient().main()
