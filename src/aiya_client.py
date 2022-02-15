@@ -91,7 +91,6 @@ class AiyaClient:
         print("         * cut：文件切分和合并工具，原CutCutCut")
         print("         * send：发送粘贴板数据；数据复制到粘贴板后输入send指令，仅支持文本")
         print("         * get：接收数据到粘贴板；输入get指令后会将接收到的数据复制到粘贴板")
-        print("     请确保已经安装Outlook并正确配置了邮件服务器")
         print()
         print("     Tips：")
         print("     * 粘贴板功能仅支持文本，注意内容不要过多，支持代理")
