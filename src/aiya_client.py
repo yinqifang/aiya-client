@@ -4,7 +4,7 @@ import traceback
 from common.color_print import ColorPrint
 from common.clipboard import Clipboard
 from cut_cut_cut.cut_cut_cut import CutCutCut
-from mq.mq import MQ
+from mq.mq_http import MQHttp
 from common.resource_path import Resource
 
 class AiyaClient:
@@ -29,11 +29,11 @@ class AiyaClient:
                     # print("发送粘贴板")
                     data = Clipboard.get_data_from_clipboard()
                     print("粘贴板数据：" + data[0:20] + "...")
-                    MQ.get_instance().send(data)
+                    MQHttp.get_instance().send(data)
                     ColorPrint.get_instance().print_blue("已发送到MQ!")
                 elif selected == "cv":
                     # 接收到粘贴板
-                    data = MQ.get_instance().get()
+                    data = MQHttp.get_instance().get()
                     if data is None:
                         ColorPrint.get_instance().print_red("没有找到数据")
                     else:

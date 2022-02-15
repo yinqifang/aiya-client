@@ -11,7 +11,7 @@ class SplitConfig:
 
     # 获取源文件值
     def get_src_file(self):
-        config_reader = ConfigReader()
+        config_reader = ConfigReader.get_instance()
         val = config_reader.read_config(config_reader.get_config_file(), self.section, "src.file")
         if not val:
             val = self.def_src_file
@@ -19,12 +19,12 @@ class SplitConfig:
 
     # 更新源文件值
     def update_src_file(self, src_file):
-        config_reader = ConfigReader()
+        config_reader = ConfigReader.get_instance()
         config_reader.write_config(config_reader.get_config_file(), self.section, "src.file", src_file)
 
     # 获取分割大小
     def get_split_size(self):
-        config_reader = ConfigReader()
+        config_reader = ConfigReader.get_instance()
         val = config_reader.read_config(config_reader.get_config_file(), self.section, "split.size.in.mb")
         if not val:
             val = self.def_split_size_in_mb
@@ -34,7 +34,7 @@ class SplitConfig:
 
     # 更新分割大小
     def update_split_size(self, split_size):
-        config_reader = ConfigReader()
+        config_reader = ConfigReader.get_instance()
         config_reader.write_config(config_reader.get_config_file(), self.section, "split.size.in.mb", split_size)
 
 

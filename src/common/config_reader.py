@@ -8,6 +8,13 @@ import sys
 
 class ConfigReader:
     root_path = None
+    _instance = None
+
+    @classmethod
+    def get_instance(cls):
+        if ConfigReader._instance is None:
+            ConfigReader._instance = ConfigReader()
+        return ConfigReader._instance
 
     # 读取配置，使用指定配置文件
     def read_config(self, config_file, section, config_key):
@@ -19,7 +26,7 @@ class ConfigReader:
             conf.read(config_file)
             return conf.get(section, config_key)
         except Exception as e:
-            # print(traceback.format_exc())
+            # print(traceback.format_exc())·
             return None
 
     # 写入配置，使用指定配置文件
@@ -48,7 +55,6 @@ class ConfigReader:
         # ConfigReader.root_path = os.path.dirname(sys.executable)  // src下不行，exe可行
         # ConfigReader.root_path = sys.path[0]  // src可行，exe不行
         # ConfigReader.root_path = os.getcwd() // src可行，exe不行
-
         try:
             # PyInstaller creates a temp folder and stores path in _MEIPASS
             sys._MEIPASS    # 用于环境监测
@@ -57,5 +63,4 @@ class ConfigReader:
         except Exception:
             # 当前是非exe环境
             ConfigReader.root_path = os.getcwd()
-
         print("Config file root path: " + ConfigReader.root_path)
