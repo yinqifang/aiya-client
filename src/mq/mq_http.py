@@ -71,7 +71,7 @@ class MQHttp:
         if resp.status_code == 200:
             ColorPrint.get_instance().print_green("发送成功: " + str(resp.text)[0:20] + "...")
         else:
-            ColorPrint.get_instance().print_red("发送失败：" + str(resp.text)[0:20] + "...")
+            ColorPrint.get_instance().print_red("发送失败：" + str(resp.text))
 
     # 拉取一条消息
     def get(self):
@@ -93,7 +93,7 @@ class MQHttp:
                 ColorPrint.get_instance().print_green("接收成功: " + str(resp.text)[0:20] + "...")
             return resp.text
         else:
-            ColorPrint.get_instance().print_red("接收失败：" + str(resp.text)[0:20] + "...")
+            ColorPrint.get_instance().print_red("接收失败：" + str(resp.text))
             return None
 
 
