@@ -1,0 +1,6 @@
+[mq.http]
+mq.url.send = http://host:port/XXX
+mq.url.get = http://host:port/XXX
+
+[proxy]
+proxy.http = http://host:port

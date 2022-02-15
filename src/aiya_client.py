@@ -28,17 +28,17 @@ class AiyaClient:
                     # 发送粘贴板
                     # print("发送粘贴板")
                     data = Clipboard.get_data_from_clipboard()
-                    print("粘贴板数据：" + data[0:20] + "...")
+                    # print("粘贴板数据：" + data[0:20] + "...")
                     MQHttp.get_instance().send(data)
-                    ColorPrint.get_instance().print_blue("已发送到MQ!")
+                    # ColorPrint.get_instance().print_blue("已发送到MQ!")
                 elif selected == "cv":
                     # 接收到粘贴板
                     data = MQHttp.get_instance().get()
-                    if data is None:
+                    if data is None or len(data) == 0:
                         ColorPrint.get_instance().print_red("没有找到数据")
                     else:
                         Clipboard.write_data_to_clipboard(data)
-                        print("收到数据：" + data[0:20] + "...")
+                        # print("收到数据：" + data[0:20] + "...")
                         ColorPrint.get_instance().print_green("数据已成功复制到粘贴板！")
                 elif selected == "8":
                     # 更新日志

@@ -43,43 +43,55 @@ class MQHttp:
         # print(rst)
         return cfg
 
+    # 获取代理信息
+    def __get_proxy(self):
+        proxies = {}
+        config_reader = ConfigReader.get_instance()
+        section = 'proxy'
+        config_key = 'proxy.http'
+        http_proxy = config_reader.read_config(config_reader.get_config_file(), section, config_key)
+        if http_proxy is not None and len(http_proxy) > 0:
+            proxies['http'] = http_proxy
+        # print("proxys : " + str(proxies))
+        return proxies
+
     # 发送消息
     def send(self, msg):
         config_reader = ConfigReader.get_instance()
         section = 'mq.http'
-        config_key = 'url.send'
+        config_key = 'mq.url.send'
         url = config_reader.read_config(config_reader.get_config_file(), section, config_key)
         if url is None:
-            ColorPrint.get_instance().print_red("配置文件缺少url.send配置！")
+            ColorPrint.get_instance().print_red("配置文件缺少" + config_key + "配置！")
             return
         payload = {'exchangeName': self._default_exchange, 'routingKey': self._default_routing_key, 'msg': msg}
 
-        resp = requests.post(url=url, json=payload)
+        resp = requests.post(url=url, json=payload, proxies=self.__get_proxy())
         if resp.status_code == 200:
-            ColorPrint.get_instance().print_green("发送成功: " + str(resp.text))
+            ColorPrint.get_instance().print_green("发送成功: " + str(resp.text)[0:20] + "...")
         else:
-            ColorPrint.get_instance().print_red("发送失败：" + str(resp.text))
+            ColorPrint.get_instance().print_red("发送失败：" + str(resp.text)[0:20] + "...")
 
     # 拉取一条消息
     def get(self):
         config_reader = ConfigReader.get_instance()
         section = 'mq.http'
-        config_key = 'url.get'
+        config_key = 'mq.url.get'
         url = config_reader.read_config(config_reader.get_config_file(), section, config_key)
         if url is None:
-            ColorPrint.get_instance().print_red("配置文件缺少url.get配置！")
+            ColorPrint.get_instance().print_red("配置文件缺少" + config_key + "配置！")
             return
         payload = {'queueName': self._default_queue_name}
 
-        resp = requests.post(url=url, json=payload)
+        resp = requests.post(url=url, json=payload, proxies=self.__get_proxy())
         if resp.status_code == 200:
             if len(resp.text) == 0:
                 ColorPrint.get_instance().print_magenta("没有发现新消息")
             else:
-                ColorPrint.get_instance().print_green("接收成功: " + str(resp.text))
+                ColorPrint.get_instance().print_green("接收成功: " + str(resp.text)[0:20] + "...")
             return resp.text
         else:
-            ColorPrint.get_instance().print_red("接收失败：" + str(resp.text))
+            ColorPrint.get_instance().print_red("接收失败：" + str(resp.text)[0:20] + "...")
             return None
 
 
