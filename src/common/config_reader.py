@@ -14,7 +14,17 @@ class ConfigReader:
     def get_instance(cls):
         if ConfigReader._instance is None:
             ConfigReader._instance = ConfigReader()
+        if ConfigReader._instance.is_debug_on():
+            print("Config file root path: " + ConfigReader.root_path)
         return ConfigReader._instance
+
+    # 是否开启调试开关
+    def is_debug_on(self):
+        val = self.read_config(self.get_config_file(), "system", "debug")
+        if val is not None and val == "on":
+            return True
+        else:
+            return False
 
     # 读取配置，使用指定配置文件
     def read_config(self, config_file, section, config_key):
@@ -63,4 +73,4 @@ class ConfigReader:
         except Exception:
             # 当前是非exe环境
             ConfigReader.root_path = os.getcwd()
-        print("Config file root path: " + ConfigReader.root_path)
+        # print("Config file root path: " + ConfigReader.root_path)

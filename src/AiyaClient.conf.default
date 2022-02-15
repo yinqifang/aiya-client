@@ -1,3 +1,6 @@
+[system]
+#debug = on
+
 [mq.http]
 mq.url.send = http://host:port/XXX
 mq.url.get = http://host:port/XXX

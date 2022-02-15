@@ -52,7 +52,8 @@ class MQHttp:
         http_proxy = config_reader.read_config(config_reader.get_config_file(), section, config_key)
         if http_proxy is not None and len(http_proxy) > 0:
             proxies['http'] = http_proxy
-        # print("proxys : " + str(proxies))
+        if ConfigReader.get_instance().is_debug_on():
+            print("Proxies : " + str(proxies))
         return proxies
 
     # 发送消息
@@ -86,7 +87,8 @@ class MQHttp:
         resp = requests.post(url=url, json=payload, proxies=self.__get_proxy())
         if resp.status_code == 200:
             if len(resp.text) == 0:
-                ColorPrint.get_instance().print_magenta("没有发现新消息")
+                if ConfigReader.get_instance().is_debug_on():
+                    ColorPrint.get_instance().print_magenta("没有发现新消息")
             else:
                 ColorPrint.get_instance().print_green("接收成功: " + str(resp.text)[0:20] + "...")
             return resp.text

@@ -9,7 +9,7 @@ from common.resource_path import Resource
 
 class AiyaClient:
     # 定义参数
-    _version_ = '1.1'
+    _version_ = '1.2'
 
     # 主流程
     def main(self):
@@ -24,15 +24,17 @@ class AiyaClient:
                 if selected == "cut":
                     # 切切切
                     CutCutCut().main()
-                elif selected == "cc":
-                    # 发送粘贴板
-                    # print("发送粘贴板")
+                elif selected == "send":
+                    # 发送粘贴板数据
                     data = Clipboard.get_data_from_clipboard()
-                    # print("粘贴板数据：" + data[0:20] + "...")
-                    MQHttp.get_instance().send(data)
-                    # ColorPrint.get_instance().print_blue("已发送到MQ!")
-                elif selected == "cv":
-                    # 接收到粘贴板
+                    if data is None or len(data) == 0:
+                        ColorPrint.get_instance().print_red("粘贴板数据为空！")
+                    else:
+                        # print("粘贴板数据：" + data[0:20] + "...")
+                        MQHttp.get_instance().send(data)
+                        # ColorPrint.get_instance().print_blue("已发送到MQ!")
+                elif selected == "get":
+                    # 接收数据到粘贴板
                     data = MQHttp.get_instance().get()
                     if data is None or len(data) == 0:
                         ColorPrint.get_instance().print_red("没有找到数据")
@@ -40,10 +42,10 @@ class AiyaClient:
                         Clipboard.write_data_to_clipboard(data)
                         # print("收到数据：" + data[0:20] + "...")
                         ColorPrint.get_instance().print_green("数据已成功复制到粘贴板！")
-                elif selected == "8":
+                elif selected == "log":
                     # 更新日志
                     self.print_release_notes()
-                elif selected == "9":
+                elif selected == "help" or selected == "h" or selected == "?":
                     # 查看菜单
                     self.print_menu()
                 else:
@@ -58,14 +60,14 @@ class AiyaClient:
     # 显示菜单
     def print_menu(self):
         ColorPrint.get_instance().print_green("cut： 切切切")
-        ColorPrint.get_instance().print_green("cc： 发送粘贴板")
-        ColorPrint.get_instance().print_green("cv： 接收到粘贴板")
-        ColorPrint.get_instance().print_green("8： 更新日志")
+        ColorPrint.get_instance().print_green("send： 发送粘贴板数据")
+        ColorPrint.get_instance().print_green("get： 接收数据到粘贴板")
+        ColorPrint.get_instance().print_green("log： 更新日志")
         ColorPrint.get_instance().print_magenta("quit： 退出")
 
     # 菜单选择
     def select_menu(self):
-        return input("请输入要使用的功能（9菜单，quit退出）：")
+        return input("请输入要使用的功能（help/h/?菜单，quit退出）：")
 
     # 显示更新日志
     def print_release_notes(self):
